@@ -422,6 +422,118 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="COFINSAliq_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 01, 02 e 05</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="01"/>
+			<xs:enumeration value="02"/>
+			<xs:enumeration value="05"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="COFINSQtde_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 03</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="03"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="COFINSNT_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 04, 06, 07, 08 ou 09</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="04"/>
+			<xs:enumeration value="06"/>
+			<xs:enumeration value="07"/>
+			<xs:enumeration value="08"/>
+			<xs:enumeration value="09"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="COFINSSN_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 49</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="49"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="COFINSOutr_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 99</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="E_ISSQN_ListServ">
+		<xs:annotation>
+			<xs:documentation>Item da Lista de Serviços</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="E_ISSQN_cServTribMun">
+		<xs:annotation>
+			<xs:documentation>Codigo de tributação pelo ISSQN do municipio</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="E_ISSQN_cNatOper">
+		<xs:annotation>
+			<xs:documentation>Natureza da Operação de ISSQN</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="01"/>
+			<xs:enumeration value="03"/>
+			<xs:enumeration value="08"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="E_ISSQN_indIncFisc">
+		<xs:annotation>
+			<xs:documentation>Indicador de Incentivo Fiscal do ISSQN</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="E_infAdProd">
+		<xs:annotation>
+			<xs:documentation>Informações Adicionais do Produto</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve"/>
+			<xs:minLength value="1"/>
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+
     <!-- Campos complexos para cfe -->
     <xs:complexType name="EC_ide">
         <xs:annotation>
@@ -479,6 +591,7 @@
             <xs:element name="dest" type="EC_dest" minOccurs="1" maxOccurs="1"/>
             <xs:element name="entrega" type="EC_entrega" minOccurs="0" maxOccurs="1"/>
             <xs:element name="det" type="EC_det" minOccurs="1" maxOccurs="500"/>
+			<xs:element name="total" type="EC_total" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="versaoDadosEnt" use="required" type="A_CFeVersao"/>
     </xs:complexType>
@@ -624,6 +737,101 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="EC_COFINSAliq">
+		<xs:annotation>
+			<xs:documentation>Grupo de COFINS tributado pela alíquota</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="COFINSAliq_CST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vBC" type="E_DECv13c2" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="pCOFINS" type="E_DECv1c4" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_COFINSQtde">
+		<xs:annotation>
+			<xs:documentation>Grupo de COFINS tributado por Qtde</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="COFINSQtde_CST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="qBCProd" type="E_DECv11c4" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vAliqProd" type="E_DECv11c4" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_COFINSNT">
+		<xs:annotation>
+			<xs:documentation>Grupo de COFINS não tributado</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="COFINSNT_CST" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_COFINSSN">
+		<xs:annotation>
+			<xs:documentation>Grupo de COFINS para contribuinte do SIMPLES</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="COFINSSN_CST" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_COFINSOutr">
+		<xs:annotation>
+			<xs:documentation>Grupo de COFINS Outras Operações</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="COFINSOutr_CST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vBC" type="E_DECv13c2" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pCOFINS" type="E_DECv1c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="qBCProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="vAliqProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_COFINSST">
+		<xs:annotation>
+			<xs:documentation>Grupo de COFINS Substituição Tributária</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vBC" type="E_DECv13c2" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pCOFINS" type="E_DECv1c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="qBCProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="vAliqProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_COFINS">
+		<xs:annotation>
+			<xs:documentation>Grupo do COFINS</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="COFINSAliq" type="EC_COFINSAliq"/>
+			<xs:element name="COFINSQtde" type="EC_COFINSQtde"/>
+			<xs:element name="COFINSNT" type="EC_COFINSNT"/>
+			<xs:element name="COFINSSN" type="EC_COFINSSN"/>
+			<xs:element name="COFINSOutr" type="EC_COFINSOutr"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="EC_ISSQN">
+		<xs:annotation>
+			<xs:documentation>Grupo do ISSQN</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vDeducISSQN" type="E_DECv13c2" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vBC" type="E_DECv13c2" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vAliq" type="E_DECv3c2" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vISSQN" type="E_DECv13c2" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="cMunFG" type="E_CEST" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="cListServ" type="E_ISSQN_ListServ" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="cServTribMun" type="E_ISSQN_cServTribMun" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="cNatOp" type="E_ISSQN_cNatOper" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="indIncFisc" type="E_ISSQN_indIncFisc" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
     <xs:complexType name="EC_imposto">
         <xs:annotation>
             <xs:documentation>Grupo de Tributos incidentes no Produto ou Serviço</xs:documentation>
@@ -633,9 +841,9 @@
             <xs:element name="ICMS" type="EC_ICMS" minOccurs="0" maxOccurs="1"/>
             <xs:element name="PIS" type="EC_PIS" minOccurs="1" maxOccurs="1"/>
             <xs:element name="PISST" type="EC_PISST" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="COFINS" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="COFINSST" minOccurs="0" maxOccurs="1"/>
-			<xs:element name="ISSQN" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="COFINS" type="EC_COFINS" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="COFINSST" type="EC_COFINSST" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ISSQN" type="EC_ISSQN" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -667,10 +875,20 @@
         <xs:sequence>
             <xs:element name="prod" type="EC_prod" minOccurs="1" maxOccurs="1"/>
             <xs:element name="imposto" type="EC_imposto" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="infAdProd" type="E_infAdProd" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="nItem" use="required" type="A_nItem"/>
     </xs:complexType>
 
+	<xs:complexType name="EC_total">
+		<xs:annotation>
+			<xs:documentation>Grupo  de  Valores Totais do CF-e</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DescAcrEntr" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
     <xs:complexType name="EC_CFe">
         <xs:annotation>
             <xs:documentation>TAG raiz do CF-e</xs:documentation>
