@@ -270,6 +270,16 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="E_DECv1c4">
+        <xs:annotation>
+            <xs:documentation>Campo que pode possuir até 1 digitos no valor com 4 casas decimais.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+            <xs:pattern value="[0-9]{1}\.[0-9]{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="E_indRegra">
         <xs:annotation>
             <xs:documentation>Indicador da regra de cálculo utilizada para  Valor Bruto dos Produtos e Serviços:A -Arredondamento;T -Truncamento</xs:documentation>
@@ -345,6 +355,62 @@
             <xs:enumeration value="900"/>
         </xs:restriction>
     </xs:simpleType>
+
+	<xs:simpleType name="PISAliq_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 01, 02 e 05</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="01"/>
+			<xs:enumeration value="02"/>
+			<xs:enumeration value="05"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PISQtde_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 03</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="03"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PISNT_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 04, 06, 07, 08 ou 09</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="04"/>
+			<xs:enumeration value="06"/>
+			<xs:enumeration value="07"/>
+			<xs:enumeration value="08"/>
+			<xs:enumeration value="09"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PISSN_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 49</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="49"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PISOutr_CST">
+		<xs:annotation>
+			<xs:documentation>CST = 99</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+			<xs:enumeration value="99"/>
+		</xs:restriction>
+	</xs:simpleType>
 
     <!-- Campos complexos para cfe -->
     <xs:complexType name="EC_ide">
@@ -477,18 +543,83 @@
         </xs:choice>
     </xs:complexType>
 
+	<xs:complexType name="EC_PISAliq">
+		<xs:annotation>
+			<xs:documentation>Grupo de PIS tributado pela alíquota</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="PISAliq_CST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vBC" type="E_DECv13c2" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="pPIS" type="E_DECv1c4" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="EC_PISQtde">
+		<xs:annotation>
+			<xs:documentation>Grupo de PIS tributado por Qtde</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="PISQtde_CST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="qBCProd" type="E_DECv11c4" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vAliqProd" type="E_DECv11c4" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_PISNT">
+		<xs:annotation>
+			<xs:documentation>Grupo de PIS não tributado</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="PISNT_CST" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_PISSN">
+		<xs:annotation>
+			<xs:documentation>Grupo de PIS para contribuinte do SIMPLES NACIONAL</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="PISSN_CST" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EC_PISOutr">
+		<xs:annotation>
+			<xs:documentation>Grupo de PIS Outras Operações</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CST" type="PISOutr_CST" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="vBC" type="E_DECv12c3" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pPIS" type="E_DECv1c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="qBCProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="vAliqProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
     <xs:complexType name="EC_PIS">
         <xs:annotation>
             <xs:documentation>Grupo do PIS</xs:documentation>
         </xs:annotation>
         <xs:choice>
-            <xs:element name="PISAliq"/>
-            <xs:element name="PISQtde"/>
-            <xs:element name="PISNT"/>
-            <xs:element name="PISSN"/>
-            <xs:element name="PISOutr"/>
+            <xs:element name="PISAliq" type="EC_PISAliq"/>
+            <xs:element name="PISQtde" type="EC_PISQtde"/>
+            <xs:element name="PISNT" type="EC_PISNT"/>
+            <xs:element name="PISSN" type="EC_PISSN"/>
+            <xs:element name="PISOutr" type="EC_PISOutr"/>
         </xs:choice>
     </xs:complexType>
+
+	<xs:complexType name="EC_PISST">
+		<xs:annotation>
+			<xs:documentation>Grupo de PIS Substituição Tributária</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="vBC" type="E_DECv13c2" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="pPIS" type="E_DECv1c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="qBCProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="vAliqProd" type="E_DECv11c4" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
 
     <xs:complexType name="EC_imposto">
         <xs:annotation>
@@ -498,7 +629,10 @@
             <xs:element name="vItem12741" type="E_DECv13c2" minOccurs="0" maxOccurs="1"/>
             <xs:element name="ICMS" type="EC_ICMS" minOccurs="0" maxOccurs="1"/>
             <xs:element name="PIS" type="EC_PIS" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="PISST" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="PISST" type="EC_PISST" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="COFINS" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="COFINSST" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ISSQN" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
