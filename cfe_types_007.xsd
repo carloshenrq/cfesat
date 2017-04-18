@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-
     <!-- Campos de valor para atributos ao CFe -->
     <xs:simpleType name="A_CFeVersao">
         <xs:annotation>
