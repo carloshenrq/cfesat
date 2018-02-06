@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <!-- Campos de valor para atributos ao CFe -->
+
+	<!-- Campos de valor para elementos ao CFeCanc -->
+	<xs:simpleType name="E_chCanc">
+        <xs:annotation>
+            <xs:documentation>informar a chave de acesso do CF-e a ser cancelado, precedida do literal 'CFe', acrescentada a validação do formato</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+            <xs:minLength value="47"/>
+            <xs:maxLength value="47"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="E_CFeCNPJ">
+        <xs:annotation>
+            <xs:documentation>Elemento de validação para campos de somente CNPJ</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+            <xs:pattern value="[0-9]{14}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="E_signAc">
+        <xs:annotation>
+            <xs:documentation>Elemento de validação para o campo de signAc para comunicação com o SAT.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="344"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="E_numeroCaixa">
+        <xs:annotation>
+            <xs:documentation>Número de 0 a 999 referente ao caixa em que o SAT está conectado.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="preserve"/>
+            <xs:pattern value="[0-9]{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+	<!-- Elementos Complexos -->
+	
+	<xs:complexType name="EC_ide">
+		<xs:annotation>
+			<xs:documentation>Grupo das informações de identificação do CF-e</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CNPJ" type="E_CFeCNPJ" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="signAC" type="E_signAc" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="numeroCaixa" type="E_numeroCaixa" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="EC_infCFe">
+        <xs:annotation>
+            <xs:documentation>Grupo das informações do CF-e</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="chCanc" type="E_chCanc" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ide" type="EC_ide" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="emit" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="dest" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="total" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="infAdic" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="EC_CFeCanc">
+        <xs:annotation>
+            <xs:documentation>TAG raiz do CF-e</xs:documentation>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="infCFe" type="EC_infCFe" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+</xs:schema>
